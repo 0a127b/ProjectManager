@@ -47,3 +47,4 @@ Dodatkowe uwagi:
 - Aplikacja korzysta z Bootstrap i jQuery do stylizacji oraz walidacji formularzy.
 - Widoki są oparte na Razor Pages (`Views/`).
 - API dostępne pod `/Api/ProjectsApiController`.
+- Aktualnie nie działa usuwanie projektow/kategorii/komentarzy.
