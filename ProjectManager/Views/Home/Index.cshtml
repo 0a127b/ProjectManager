@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ProjectManager.Models.ApplicationUser> SignInManager
+@inject UserManager<ProjectManager.Models.ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container text-center mt-5">
+    @if (!SignInManager.IsSignedIn(User))
+    {
+        <h1>Witaj w ProjectManager!</h1>
+        <p>Proszę się zalogować lub zarejestrować, aby zarządzać projektami.</p>
+        <a class="btn btn-primary" asp-area="" asp-controller="Account" asp-action="Login">
+            <i class="fas fa-sign-in-alt"></i>
+        </a>
+        <a class="btn btn-success" asp-area="" asp-controller="Account" asp-action="Register">
+            <i class="fas fa-user-plus"></i>
+        </a>
+    }
+    else
+    {
+        <h1>Witaj, @UserManager.GetUserName(User)!</h1>
+        <p>Przejdź do panelu zarządzania:</p>
+        <a class="btn btn-secondary" asp-controller="Projects" asp-action="Index">
+            <i class="fas fa-list"></i>
+        </a>
+        <a class="btn btn-secondary" asp-controller="Categories" asp-action="Index">
+            <i class="fas fa-tags"></i>
+        </a>
+        <a class="btn btn-secondary" asp-controller="Comments" asp-action="Index">
+            <i class="fas fa-comments"></i>
+        </a>
+    }
+</div>

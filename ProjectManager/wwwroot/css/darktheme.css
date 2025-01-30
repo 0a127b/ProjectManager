@@ -1,0 +1,28 @@
+body {
+    background-color: #343541;
+    color: #ececf1;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+a, a:visited {
+    color: #9da0b0;
+}
+
+    a:hover {
+        color: #ddd;
+    }
+
+.navbar .nav-link.active,
+.navbar .nav-link:hover {
+    color: #fff;
+}
+
+.btn, .form-control, .table thead th {
+    background-color: #444654;
+    border: 1px solid #565869;
+    color: #ececf1;
+}
+
+.table-dark.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #4d4e5c;
+}

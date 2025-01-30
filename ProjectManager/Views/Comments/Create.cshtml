@@ -1,0 +1,34 @@
+﻿@model ProjectManager.Models.Comment
+
+@{
+    ViewData["Title"] = "Create Comment";
+}
+
+<h2>Create Comment</h2>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="Content" class="form-label">Content</label>
+        <textarea asp-for="Content" class="form-control"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ProjectId" class="form-label">Project</label>
+        <select asp-for="ProjectId" class="form-select" asp-items="@(new SelectList(ViewBag.Projects, "Id", "Title"))">
+            <option value="">-- Select Project --</option>
+        </select>
+        <span asp-validation-for="ProjectId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        <i class="fa-solid fa-floppy-disk"></i> Save
+    </button>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="fa-solid fa-arrow-left"></i> Back
+    </a>
+</form>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
