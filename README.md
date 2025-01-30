@@ -36,7 +36,6 @@ Użytkownik	user@example.com	User123!
 Logowanie/Rejestracja:
 1. Użytkownik rejestruje się poprzez `Account/Register`.
 2. Po rejestracji może zalogować się (`Account/Login`).
-3. Administrator ma dostęp do panelu zarządzania użytkownikami.
 Zarządzanie projektami:
 1. Po zalogowaniu użytkownik może tworzyć projekty (`Projects/Create`).
 2. Projekty są wyświetlane w `Projects/Index`.
