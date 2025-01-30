@@ -67,6 +67,11 @@ namespace ProjectManager.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return Challenge(); // Przekierowanie do logowania
+                }
+
                 project.UserId = user.Id;
 
                 _context.Add(project);
@@ -94,7 +99,7 @@ namespace ProjectManager.Controllers
             if (!User.IsInRole("Admin"))
             {
                 var user = await _userManager.GetUserAsync(User);
-                if (project.UserId != user.Id)
+                if (user == null || project.UserId != user.Id)
                 {
                     return Forbid();
                 }
@@ -123,7 +128,7 @@ namespace ProjectManager.Controllers
             if (!User.IsInRole("Admin"))
             {
                 var user = await _userManager.GetUserAsync(User);
-                if (existingProject.UserId != user.Id)
+                if (user == null || existingProject.UserId != user.Id)
                 {
                     return Forbid();
                 }
@@ -177,7 +182,7 @@ namespace ProjectManager.Controllers
             if (!User.IsInRole("Admin"))
             {
                 var user = await _userManager.GetUserAsync(User);
-                if (project.UserId != user.Id)
+                if (user == null || project.UserId != user.Id)
                 {
                     return Forbid();
                 }
@@ -200,7 +205,7 @@ namespace ProjectManager.Controllers
             if (!User.IsInRole("Admin"))
             {
                 var user = await _userManager.GetUserAsync(User);
-                if (project.UserId != user.Id)
+                if (user == null || project.UserId != user.Id)
                 {
                     return Forbid();
                 }

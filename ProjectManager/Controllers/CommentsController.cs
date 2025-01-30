@@ -71,6 +71,11 @@ namespace ProjectManager.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return Challenge(); // Przekierowanie do logowania
+                }
+
                 comment.UserId = user.Id;
                 comment.CreatedAt = DateTime.Now;
 
@@ -99,7 +104,7 @@ namespace ProjectManager.Controllers
             if (!User.IsInRole("Admin"))
             {
                 var user = await _userManager.GetUserAsync(User);
-                if (comment.UserId != user.Id)
+                if (user == null || comment.UserId != user.Id)
                 {
                     return Forbid();
                 }
@@ -128,7 +133,7 @@ namespace ProjectManager.Controllers
             if (!User.IsInRole("Admin"))
             {
                 var user = await _userManager.GetUserAsync(User);
-                if (existingComment.UserId != user.Id)
+                if (user == null || existingComment.UserId != user.Id)
                 {
                     return Forbid();
                 }
@@ -181,7 +186,7 @@ namespace ProjectManager.Controllers
             if (!User.IsInRole("Admin"))
             {
                 var user = await _userManager.GetUserAsync(User);
-                if (comment.UserId != user.Id)
+                if (user == null || comment.UserId != user.Id)
                 {
                     return Forbid();
                 }
@@ -205,7 +210,7 @@ namespace ProjectManager.Controllers
             if (!User.IsInRole("Admin"))
             {
                 var user = await _userManager.GetUserAsync(User);
-                if (comment.UserId != user.Id)
+                if (user == null || comment.UserId != user.Id)
                 {
                     return Forbid();
                 }
@@ -216,7 +221,6 @@ namespace ProjectManager.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Comments/DeleteConfirmed/5
         private bool CommentExists(int id)
         {
             return _context.Comments.Any(e => e.Id == id);
