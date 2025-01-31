@@ -69,7 +69,7 @@ namespace ProjectManager.Controllers
                 var user = await _userManager.GetUserAsync(User);
                 if (user == null)
                 {
-                    return Challenge(); // Przekierowanie do logowania
+                    return Challenge(); 
                 }
 
                 project.UserId = user.Id;
@@ -162,7 +162,6 @@ namespace ProjectManager.Controllers
             return View(project);
         }
 
-        // GET: Projects/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -172,26 +171,21 @@ namespace ProjectManager.Controllers
 
             var project = await _context.Projects
                 .Include(p => p.Category)
-                .Include(p => p.User)
+                .Include(p => p.User) 
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (project == null)
             {
                 return NotFound();
             }
 
-            if (!User.IsInRole("Admin"))
+            if (!User.IsInRole("Admin") && project.UserId != User.FindFirstValue(ClaimTypes.NameIdentifier))
             {
-                var user = await _userManager.GetUserAsync(User);
-                if (user == null || project.UserId != user.Id)
-                {
-                    return Forbid();
-                }
+                return Forbid();
             }
 
             return View(project);
         }
 
-        // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -202,20 +196,15 @@ namespace ProjectManager.Controllers
                 return NotFound();
             }
 
-            if (!User.IsInRole("Admin"))
+            if (!User.IsInRole("Admin") && project.UserId != User.FindFirstValue(ClaimTypes.NameIdentifier))
             {
-                var user = await _userManager.GetUserAsync(User);
-                if (user == null || project.UserId != user.Id)
-                {
-                    return Forbid();
-                }
+                return Forbid();
             }
 
             _context.Projects.Remove(project);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         private bool ProjectExists(int id)
         {
             return _context.Projects.Any(e => e.Id == id);

@@ -48,7 +48,6 @@ namespace ProjectManager.Data
                 }
                 else
                 {
-                    // Obsługa błędów
                     foreach (var error in result.Errors)
                     {
                         System.Console.WriteLine($"Error creating admin user: {error.Description}");
@@ -76,7 +75,6 @@ namespace ProjectManager.Data
                 }
                 else
                 {
-                    // Obsługa błędów
                     foreach (var error in result.Errors)
                     {
                         System.Console.WriteLine($"Error creating regular user: {error.Description}");

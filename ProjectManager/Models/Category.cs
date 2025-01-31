@@ -1,14 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectManager.Models
 {
     public class Category
     {
+        [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Nazwa kategorii jest wymagana")]
-        [StringLength(100)]
-        public string Name { get; set; } = string.Empty;
+        [Required]
+        public string Name { get; set; }
 
+        public ICollection<Project> Projects { get; set; } = new List<Project>();
     }
 }

@@ -183,13 +183,9 @@ namespace ProjectManager.Controllers
                 return NotFound();
             }
 
-            if (!User.IsInRole("Admin"))
+            if (!User.IsInRole("Admin") && comment.UserId != User.FindFirstValue(ClaimTypes.NameIdentifier))
             {
-                var user = await _userManager.GetUserAsync(User);
-                if (user == null || comment.UserId != user.Id)
-                {
-                    return Forbid();
-                }
+                return Forbid();
             }
 
             return View(comment);
@@ -200,25 +196,28 @@ namespace ProjectManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var comment = await _context.Comments.FindAsync(id);
-            if (comment == null)
+            try
             {
-                return NotFound();
-            }
+                var comment = await _context.Comments.FindAsync(id);
+                if (comment == null)
+                {
+                    return NotFound();
+                }
 
-            // Sprawdzenie uprawnień
-            if (!User.IsInRole("Admin"))
-            {
-                var user = await _userManager.GetUserAsync(User);
-                if (user == null || comment.UserId != user.Id)
+                if (!User.IsInRole("Admin") && comment.UserId != User.FindFirstValue(ClaimTypes.NameIdentifier))
                 {
                     return Forbid();
                 }
-            }
 
-            _context.Comments.Remove(comment);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                _context.Comments.Remove(comment);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Błąd podczas usuwania komentarza: {ex.Message}");
+                return View("Error");
+            }
         }
 
         private bool CommentExists(int id)
